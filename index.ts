@@ -1,13 +1,9 @@
 import cluster from 'cluster';
 import express from "express";
+import { doHash } from './utils';
 
-const NUMBER_OF_CHILD_CLUSTER = 4;
-
-const slowDownFunction = (duration: number) => {
-  const start = Date.now();
-  while (Date.now() - start < duration) { }
-}
-
+process.env.UV_THREADPOOL_SIZE = '1';   //set threadpool total in each node process to 1 for more precise benmarking
+const NUMBER_OF_CHILD_CLUSTER = 6;
 
 if (cluster.isPrimary) {
   [...new Array(NUMBER_OF_CHILD_CLUSTER)].forEach((_, index) => {
@@ -19,7 +15,8 @@ else {
   const port = 8080;
 
   app.get("/", (req, res) => {
-    slowDownFunction(5000);   //slowdown 5s
+    // slowDownFunction(5000);   //slowdown 5s
+    doHash();
     res.send("this was slow");
   });
 
