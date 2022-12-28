@@ -1,31 +1,21 @@
-import cluster from 'cluster';
 import express from "express";
-import { doHash } from './utils';
+const { Worker } = require('node:worker_threads');
 
-process.env.UV_THREADPOOL_SIZE = '1';   //set threadpool total in each node process to 1 for more precise benmarking
-const NUMBER_OF_CHILD_CLUSTER = 6;
+const app = express();
 
-if (cluster.isPrimary) {
-  [...new Array(NUMBER_OF_CHILD_CLUSTER)].forEach((_, index) => {
-    cluster.fork();
-  })
-}
-else {
-  const app = express();
-  const port = 8080;
+app.get('/', (req, res) => {
+  const worker = new Worker('./utils/worker.ts');
 
-  app.get("/", (req, res) => {
-    // slowDownFunction(5000);   //slowdown 5s
-    doHash();
-    res.send("this was slow");
+  worker.on('message', function (message: object) {
+    console.log(message);
+    res.send('' + message);
   });
 
-  app.get("/fast", (req, res) => {
-    res.send("this was fast");
-  });
+  worker.postMessage('start!');
+});
 
-  app.listen(port, () => {
-    console.log(`node-advanced-knownledge listening at http://localhost:${port}`);
-  });
-}
+app.get('/fast', (req, res) => {
+  res.send('This was fast!');
+});
 
+app.listen(8080);
