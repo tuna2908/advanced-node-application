@@ -9,12 +9,6 @@
 # production
 /build
 
-
-
-# key file
-dev.js
-/config
-
 # misc
 .DS_Store
 .env.local
