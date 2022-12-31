@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { requireLogin } from '../middlewares/requireLogin';
-// import { cleanCache } from '../middlewares/cleanCache';
+import { cleanCache } from '../middlewares/cleanCache';
+import '../services/cache';
 
 export const blogRoute = app => {
   const Blog = mongoose.model('Blog');
@@ -16,12 +17,12 @@ export const blogRoute = app => {
 
   app.get('/api/blogs', requireLogin, async (req, res) => {
     console.log({ _user: req.user.id })
-    const blogs = await Blog.find({ _user: req.user.id });
+    const blogs = await Blog.find({ _user: req.user.id }).cache({ key: req.user.id });  //caching data using override method from mongoose
 
     res.send(blogs);
   });
 
-  app.post('/api/blogs', requireLogin, async (req, res) => {
+  app.post('/api/blogs', requireLogin, cleanCache, async (req, res) => {
     const { title, content, imageUrl } = req.body;
 
     const blog = new Blog({
