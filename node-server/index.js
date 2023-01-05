@@ -43,7 +43,7 @@ app.use(passport.session());
 authRoute(app);
 blogRoute(app);
 
-app.get('/', (req, res) => { res.send("first") })
+app.get('/', (req, res) => { res.send("welcom to the site") })
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

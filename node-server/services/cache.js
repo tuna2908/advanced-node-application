@@ -3,7 +3,7 @@ import redis from 'redis'
 import util from 'util'
 import { keys } from '../config/keys';
 
-const client = redis.createClient(keys.redisUrl);
+const client = redis.createClient(keys.redisURL);
 client.hget = util.promisify(client.hget);
 const exec = mongoose.Query.prototype.exec;
 
