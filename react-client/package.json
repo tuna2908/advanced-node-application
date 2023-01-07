@@ -4,27 +4,27 @@
   "private": true,
   "proxy": {
     "/auth/*": {
-      "target": "http://localhost:8080"
+      "target": "http://127.0.0.1:8080"
     },
     "/api/*": {
-      "target": "http://localhost:8080"
+      "target": "http://127.0.0.1:8080"
     }
   },
   "dependencies": {
     "axios": "^0.16.2",
     "materialize-css": "^0.100.2",
-    "react": "^16.0.0-alpha.13",
-    "react-dom": "^16.0.0-alpha.13",
-    "react-redux": "^5.0.5",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3",
+    "react-redux": "^7.0.0",
     "react-router-dom": "^4.1.1",
     "react-scripts": "1.0.10",
-    "redux": "^3.7.1",
-    "redux-form": "^7.0.1",
+    "redux": "^4.2.0",
+    "redux-form": "^8.3.9",
     "redux-thunk": "^2.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "CI=false && react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },

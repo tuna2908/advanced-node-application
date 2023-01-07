@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node index.js"
+    "start": "ts-node index.js",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "NPM_CONFIG_PRODUCTION=false npm install --prefix ../react-client && npm run build --prefix ../react-client",
+    "heroku-postbuild": "npm run build"
   },
   "dependencies": {
     "express": "^4.17.1"

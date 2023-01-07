@@ -2,7 +2,6 @@
 import mongoose from 'mongoose';
 import { keys } from './config/keys';
 import express from "express";
-import MongoClient from 'mongodb';
 import passport from 'passport';
 
 import { blogSchema } from './models/Blog';
@@ -11,7 +10,11 @@ import PassportService from './services/passport';
 import { authRoute } from './routes/authRoutes';
 import { blogRoute } from './routes/blogRoutes';
 import bodyParser from 'body-parser';
-import CookieSession from 'cookie-session'
+import CookieSession from 'cookie-session';
+import path from 'path';
+
+
+console.log({ ENV: process.env });
 //connect DB
 mongoose.Promise = global.Promise;
 mongoose.connect(keys.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -44,6 +47,14 @@ authRoute(app);
 blogRoute(app);
 
 app.get('/', (req, res) => { res.send("welcom to the site") })
+
+if (['production'].includes(process.env.NODE_ENV)) {
+  app.use(express.static('client/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve('client', 'build', 'index.html'));
+  });
+}
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
