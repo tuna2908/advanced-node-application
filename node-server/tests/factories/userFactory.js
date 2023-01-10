@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';;
 const User = mongoose.model('User');
 
-module.exports = () => {
+export const userFactory = () => {
   return new User({}).save();
 };

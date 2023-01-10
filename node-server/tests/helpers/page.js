@@ -1,8 +1,7 @@
-const puppeteer = require('puppeteer');
-const sessionFactory = require('../factories/sessionFactory');
-const userFactory = require('../factories/userFactory');
+import puppeteer from 'puppeteer';
+import { sessionFactory, userFactory } from '../factories';
 
-class CustomPage {
+export class CustomPage {
   static async build() {
     const browser = await puppeteer.launch({
       headless: true,
@@ -13,7 +12,7 @@ class CustomPage {
     const customPage = new CustomPage(page);
 
     return new Proxy(customPage, {
-      get: function(target, property) {
+      get: function (target, property) {
         return customPage[property] || browser[property] || page[property];
       }
     });
@@ -66,7 +65,7 @@ class CustomPage {
     );
   }
 
-  execRequests(actions) {
+  execRequests(actions) {   //used to simplify the apis evaluation process
     return Promise.all(
       actions.map(({ method, path, data }) => {
         return this[method](path, data);
@@ -74,5 +73,3 @@ class CustomPage {
     );
   }
 }
-
-module.exports = CustomPage;

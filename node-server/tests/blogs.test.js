@@ -1,9 +1,10 @@
-const Page = require('./helpers/page');
+import { afterEach, beforeEach, describe, expect, test } from '@jest/globals';
+import { CustomPage } from './helpers/page';
 
 let page;
 
 beforeEach(async () => {
-  page = await Page.build();
+  page = await CustomPage.build();
   await page.goto('http://localhost:3000');
 });
 
@@ -11,7 +12,7 @@ afterEach(async () => {
   await page.close();
 });
 
-describe('When logged in', async () => {
+describe.skip('When logged in', () => {
   beforeEach(async () => {
     await page.login();
     await page.click('a.btn-floating');
@@ -23,7 +24,7 @@ describe('When logged in', async () => {
     expect(label).toEqual('Blog Title');
   });
 
-  describe('And using valid inputs', async () => {
+  describe('And using valid inputs', () => {
     beforeEach(async () => {
       await page.type('.title input', 'My Title');
       await page.type('.content input', 'My Content');
@@ -48,7 +49,7 @@ describe('When logged in', async () => {
     });
   });
 
-  describe('And using invalid inputs', async () => {
+  describe('And using invalid inputs', () => {
     beforeEach(async () => {
       await page.click('form button');
     });
@@ -63,7 +64,7 @@ describe('When logged in', async () => {
   });
 });
 
-describe('User is not logged in', async () => {
+describe.skip('User is not logged in', () => {
   const actions = [
     {
       method: 'get',

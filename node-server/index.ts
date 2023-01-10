@@ -45,7 +45,7 @@ blogRoute(app);
 
 app.get('/', (req, res) => { res.send("welcom to the site") })
 
-if (['production'].includes(process.env.NODE_ENV)) {
+if (['production'].includes(keys.nodeENV)) {
   app.use(express.static('../react-client/build'));
 
   app.get('*', (req, res) => {
