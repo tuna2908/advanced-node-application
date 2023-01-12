@@ -2,11 +2,12 @@ import mongoose from 'mongoose';
 import { requireLogin } from '../middlewares/requireLogin';
 import { cleanCache } from '../middlewares/cleanCache';
 import '../services/cache';
+import express, { Request, Response } from 'express';
 
-export const blogRoute = app => {
+export const blogRoute = (app: express.Application) => {
   const Blog = mongoose.model('Blog');
 
-  app.get('/api/blogs/:id', requireLogin, async (req, res) => {
+  app.get('/api/blogs/:id', requireLogin, async (req: Request, res: Response) => {
     const blog = await Blog.findOne({
       _user: req.user.id,
       _id: req.params.id
@@ -15,14 +16,14 @@ export const blogRoute = app => {
     res.send(blog);
   });
 
-  app.get('/api/blogs', requireLogin, async (req, res) => {
+  app.get('/api/blogs', requireLogin, async (req: Request, res: Response) => {
     console.log({ _user: req.user.id })
     const blogs = await Blog.find({ _user: req.user.id }).cache({ key: req.user.id });  //caching data using override method from mongoose
 
     res.send(blogs);
   });
 
-  app.post('/api/blogs', requireLogin, cleanCache, async (req, res) => {
+  app.post('/api/blogs', requireLogin, cleanCache, async (req: Request, res: Response) => {
     const { title, content, imageUrl } = req.body;
 
     const blog = new Blog({
