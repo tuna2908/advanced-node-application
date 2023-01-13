@@ -3,7 +3,7 @@ import redis, { RedisClientType } from 'redis'
 import { keys } from "../credentials/keys";
 
 export class RedisService {
-    _redisClient: RedisClientType
+    private _redisClient: RedisClientType
 
     private static instance: RedisService;
 
@@ -21,5 +21,9 @@ export class RedisService {
         } catch (error) {
             console.error(error);
         }
+    }
+
+    getRedisClient(): RedisClientType {
+        return this._redisClient;
     }
 }

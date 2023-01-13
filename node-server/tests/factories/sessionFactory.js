@@ -1,5 +1,5 @@
 import Keygrip from 'keygrip';
-import { keys } from '../../config/keys';
+import { keys } from '../../credentials/keys';
 import Buffer from 'safe-buffer';
 
 const keygrip = new Keygrip([keys.cookieKey]);

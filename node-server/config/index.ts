@@ -11,17 +11,19 @@ export class Config {
             let s = performance.now();
             let e = performance.now();
 
+            s = performance.now();
+            const _redisService = RedisService.getInstance();
+            _redisService.init();
+            e = performance.now();
+            console.info(`redis init ${e - s}`);
+
 
             s = performance.now();
             DBConfig.init();
             e = performance.now();
             console.info(`app init ${e - s}`);
 
-            s = performance.now();
-            const _redisService = RedisService.getInstance();
-            _redisService.init();
-            e = performance.now();
-            console.info(`redis init ${e - s}`);
+
 
 
             s = performance.now();

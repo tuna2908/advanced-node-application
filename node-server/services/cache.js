@@ -1,10 +1,9 @@
 import mongoose from 'mongoose';;
-import redis from 'redis'
 import util from 'util'
-import { keys } from '../config/keys';
+import { RedisService } from './redis';
 
-const client = redis.createClient(keys.redisURL);
-client.hget = util.promisify(client.hget);
+const redisClient = RedisService.getInstance().getRedisClient();
+redisClient.hget = util.promisify(redisClient.hget);
 const exec = mongoose.Query.prototype.exec;
 
 mongoose.Query.prototype.cache = function (options = {}) {

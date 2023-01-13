@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 8080;
 
 
 
-// import { keys } from './config/keys';
+// import { keys } from './credentials/keys';
 // import mongoose from 'mongoose';
 // import express from "express";
 // import passport from 'passport';
