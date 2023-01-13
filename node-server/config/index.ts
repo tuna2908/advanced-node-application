@@ -1,6 +1,7 @@
 import express from 'express';
 import { performance } from 'perf_hooks';
 import { Routes } from '../routes';
+import PasspostService from '../services/passport';
 import { RedisService } from '../services/redis';
 
 import { DBConfig } from './db.conf';
@@ -13,18 +14,21 @@ export class Config {
 
             s = performance.now();
             const _redisService = RedisService.getInstance();
-            _redisService.init();
+            await _redisService.init();
             e = performance.now();
             console.info(`redis init ${e - s}`);
 
 
             s = performance.now();
-            DBConfig.init();
+            await DBConfig.init();
             e = performance.now();
-            console.info(`app init ${e - s}`);
+            console.info(`DB init ${e - s}`);
 
-
-
+            s = performance.now();
+            const _ggPassportService = PasspostService.getInstance();
+            _ggPassportService.init();
+            e = performance.now();
+            console.info(`GG init ${e - s}`);
 
             s = performance.now();
             Routes.init(app);

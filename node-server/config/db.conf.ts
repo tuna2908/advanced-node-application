@@ -6,11 +6,9 @@ import { keys } from "../credentials/keys";
 export class DBConfig {
     public static async init(): Promise<void> {
         try {
-            mongoose.Promise = global.Promise;
-            const a = mongoose.connect(keys.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
-            (await a).model
-            mongoose.model('Blog', blogSchema);
-            mongoose.model('User', userSchema);
+            await mongoose.connect(keys.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
+            await mongoose.model('Blog', blogSchema);
+            await mongoose.model('User', userSchema);
         } catch (error) {
             console.error(error);
         }

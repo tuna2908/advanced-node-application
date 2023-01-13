@@ -7,6 +7,17 @@ import { MongooseUserModel } from '../models';
 export default class PasspostService {
   userScheme: MongooseUserModel;
 
+
+  private static instance: PasspostService;
+
+  public static getInstance(): PasspostService {
+    if (!PasspostService.instance) {
+      PasspostService.instance = new PasspostService();
+    }
+
+    return PasspostService.instance;
+  }
+
   constructor() {
     this.userScheme = mongoose.model('User');
   }

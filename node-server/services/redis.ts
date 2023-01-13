@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import redis, { RedisClientType } from 'redis'
+import { RedisClientType, createClient } from 'redis'
 import { keys } from "../credentials/keys";
 
 export class RedisService {
@@ -17,7 +17,8 @@ export class RedisService {
 
     async init(): Promise<void> {
         try {
-            this._redisClient = await redis.createClient({ url: keys.redisURL });
+            this._redisClient = await createClient({ url: keys.redisURL });
+            this._redisClient.connect();
         } catch (error) {
             console.error(error);
         }
