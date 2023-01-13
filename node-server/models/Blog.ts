@@ -1,6 +1,4 @@
-import mongoose from 'mongoose';
-
-const { Schema } = mongoose;
+import { Schema } from 'mongoose';
 
 export const blogSchema = new Schema({
   title: String,

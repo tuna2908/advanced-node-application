@@ -1,16 +1,30 @@
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import mongoose from 'mongoose';;
-import { keys } from '../config/keys';
+import { keys } from '../credentials/keys';
+import { MongooseUserModel } from '../models';
 
 export default class PasspostService {
+  userScheme: MongooseUserModel;
+
+
+  private static instance: PasspostService;
+
+  public static getInstance(): PasspostService {
+    if (!PasspostService.instance) {
+      PasspostService.instance = new PasspostService();
+    }
+
+    return PasspostService.instance;
+  }
+
   constructor() {
     this.userScheme = mongoose.model('User');
   }
 
   init() {
     passport.serializeUser((user, done) => {
-      done(null, user.id);
+      done(null, user['id']);
     });
 
     passport.deserializeUser((id, done) => {

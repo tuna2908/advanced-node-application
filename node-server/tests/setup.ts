@@ -5,7 +5,7 @@
 
 import { userSchema } from '../models/User';
 import mongoose from 'mongoose';;
-import { keys } from '../config/keys';
+import { keys } from '../credentials/keys';
 import { blogSchema } from '../models/Blog';
 import { jest } from '@jest/globals';
 
