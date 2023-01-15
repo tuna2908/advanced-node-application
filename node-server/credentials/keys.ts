@@ -14,7 +14,8 @@ export const keys = process.env.NODE_ENV === 'ci' ?
         redisURL: process.env.REDIS_URL as string,
         accessKeyId: process.env.ACCESS_KEY_ID as string,
         secretAccessKey: process.env.SECRET_ACCESS_KEY as string,
-        nodeENV: process.env.NODE_ENV as string
+        nodeENV: process.env.NODE_ENV as string,
+        S3BucketName: process.env.BUCKET_NAME as string || ''
     }
 
 console.log({ keys })

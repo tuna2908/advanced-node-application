@@ -1,25 +1,27 @@
-// const AWS = require('aws-sdk');
-// const uuid = require('uuid/v1');
-// const requireLogin = require('../middlewares/requireLogin');
-// import {keys} from '../credentials/keys';
 
-// const s3 = new AWS.S3({
-//   accessKeyId: keys.accessKeyId,
-//   secretAccessKey: keys.secretAccessKey
-// });
+import AWS from 'aws-sdk';
+import crypto from 'crypto';
+import express from 'express';
+import { keys } from '../credentials/keys';
+import { requireLogin } from '../middlewares';
 
-// module.exports = app => {
-//   app.get('/api/upload', requireLogin, (req, res) => {
-//     const key = `${req.user.id}/${uuid()}.jpeg`;
 
-//     s3.getSignedUrl(
-//       'putObject',
-//       {
-//         Bucket: 'my-blog-bucket-123',
-//         ContentType: 'image/jpeg',
-//         Key: key
-//       },
-//       (err, url) => res.send({ key, url })
-//     );
-//   });
-// };
+export const uploadImgRoute = (app: express.Application) => {
+    const s3 = new AWS.S3({
+        accessKeyId: keys.accessKeyId,
+        secretAccessKey: keys.secretAccessKey
+    });
+
+    app.get('/api/upload', requireLogin, (req, res) => {
+        const key = `${req.user['id']}/${crypto.randomUUID()}.jpeg`;
+        s3.getSignedUrl(
+            'putObject',
+            {
+                Bucket: keys.S3BucketName,
+                ContentType: 'image/jpeg',
+                Key: key
+            },
+            (err, url) => res.send({ key, url })
+        );
+    });
+};

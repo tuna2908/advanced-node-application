@@ -10,6 +10,7 @@ import { blogRoute } from './blogRoutes';
 import { sysRoute } from './system';
 import { keys } from '../credentials/keys';
 import CookieSession from 'cookie-session';
+import { uploadImgRoute } from './uploadRoutes';
 
 
 export class Routes {
@@ -27,6 +28,7 @@ export class Routes {
 
         authRoute(app);
         blogRoute(app);
+        uploadImgRoute(app);
         sysRoute(app);
     }
 }
